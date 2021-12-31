@@ -23,23 +23,33 @@ async function getProducts(){
 
 
 function addCheckOutButton() {
-  const button = document.createElement('button')
-
-  button.addEventListener('click',async ()=>{
-  const product = document.getElementById('product-select').value
 
   try {
-    const response = await fetch('/checkout', {
-    method: 'POST',
-    body: JSON.stringify({name: product})
-  })
-  const data = await response.json()
-  window.location = data.url
+    const button = document.createElement('button')
+    button.innerHTML = "Checkout"
+
+    button.addEventListener('click',async ()=>{
+      const product = document.getElementById('product-select').value
+      console.log("Selected",product)
+
+
+      const response = await fetch('/checkout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({name: product})
+      })
+
+      const data = await response.json()
+      window.location = data.url
+    })
+
+    document.body.appendChild(button)
   } catch (error) {
     console.log(error)
   }
 
-})
 }
 
 getProducts()
